@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.scoresaga</groupId>
-	<artifactId>scoresaga</artifactId>
+	<artifactId>scoreSaga</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>scoresaga</name>
 	<description>Fantasy sports web app with real-time scoring</description>
