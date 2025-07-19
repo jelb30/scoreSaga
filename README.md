@@ -44,6 +44,7 @@ ScoreSaga is an open-source fantasy sports platform inspired by Dream11, built u
 ```bash
 git clone https://github.com/jelb30/scoreSaga.git
 cd scoreSaga
+```bash
 
 # PostgreSQL Setup for ScoreSaga
 
@@ -56,12 +57,17 @@ This guide will help you configure PostgreSQL locally to work with the ScoreSaga
 
 ```bash
 brew install postgresql
+```bash
+```bash
 brew services start postgresql
+```bash
 
 ```bash
 -- Log in as postgres
 psql -U postgres
+```bash
 
 ```bash
 -- Create database
 CREATE DATABASE scoresaga;
+```bash
