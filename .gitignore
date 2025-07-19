@@ -1,6 +1,16 @@
 # Compiled class file
 *.class
 
+# Maven target directory
+/target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+
 # Log file
 *.log
 
