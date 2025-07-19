@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScoresagaApplication {
+public class scoreSagaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ScoresagaApplication.class, args);
+		SpringApplication.run(scoreSagaApplication.class, args);
 	}
 
 }
