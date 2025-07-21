@@ -20,6 +20,9 @@ public class AuthService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
+        if (userRepository.existsByUsername(request.getUsername())){
+            throw new RuntimeException("Username already taken, try different username");
+        }
 
         User user = User.builder()
                 .username(request.getUsername())
