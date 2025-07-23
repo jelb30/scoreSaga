@@ -7,9 +7,10 @@ import com.scoresaga.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -46,20 +47,20 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        System.out.println("CHEKING WHILE LOGIN!!");
-        System.out.println("EMAIL FROM REQUEST: " + request.getEmail());
+        log.info("CHECKING WHILE LOGIN!!");
+        log.info("EMAIL FROM REQUEST: " + request.getEmail());
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        System.out.println("FOUND USER IN DB: " + user.getEmail());
+        log.info("FOUND USER IN DB: " + user.getEmail());
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
-        System.out.println("TOKEN FOR: " + user.getEmail());
+        log.info("TOKEN FOR: " + user.getEmail());
 
         return new AuthResponse(token);
     }

@@ -1,6 +1,7 @@
 package com.scoresaga.config;
 
 import com.scoresaga.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -29,7 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("⛔ No Bearer token in header: " + request.getRequestURI());
+            log.info("NO BEARER TOKEN IN HEADER: " + request.getRequestURI());
             filterChain.doFilter(request, response);
             return;
         }
@@ -37,13 +39,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String token = authHeader.substring(7);
 
         if (!jwtUtil.validateToken(token)) {
-            System.out.println("⛔ Invalid JWT token");
+            log.info("INVALID JWT TOKEN!");
             filterChain.doFilter(request, response);
             return;
         }
 
         String email = jwtUtil.extractUsername(token);
-        System.out.println("✅ Extracted email from token: " + email);
+        log.info("EXTRACTED EMAIL FROM THE TOKEN: " + email);
 
         // Ensure we don't overwrite existing context
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -56,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
-            System.out.println("✅ SecurityContext set for user: " + email);
+            log.info("SecurityContext SET FOR THE USER: " + email);
         }
 
         filterChain.doFilter(request, response);
