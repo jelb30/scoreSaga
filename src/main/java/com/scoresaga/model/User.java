@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -31,9 +33,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role = "USER"; // USER / ADMIN
+    private String role = "USER";
 
-    // Optional personal info
     private String firstName;
     private String lastName;
     private String phone;
@@ -47,7 +48,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    private String profileImage; // URL to S3 or base64
+    private String profileImage;
 
-    private String status = "ACTIVE"; // ACTIVE / BLOCKED / DELETED
+    private String status = "ACTIVE";
 }

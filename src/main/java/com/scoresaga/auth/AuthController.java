@@ -1,7 +1,9 @@
 package com.scoresaga.auth;
 
 import com.scoresaga.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,9 +14,11 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        authService.registerUser(request);
+        return ResponseEntity.ok("User registered successfully.");
     }
+
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request) {
