@@ -1,6 +1,8 @@
 package com.scoresaga.auth;
 
 import com.scoresaga.dto.*;
+import com.scoresaga.enums.Role;
+import com.scoresaga.enums.Status;
 import com.scoresaga.model.User;
 import com.scoresaga.repository.UserRepository;
 import com.scoresaga.util.JwtUtil;
@@ -19,32 +21,29 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthResponse register(RegisterRequest request) {
+    public void registerUser(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-        if (userRepository.existsByUsername(request.getUsername())){
-            throw new RuntimeException("Username already taken, try different username");
+            throw new IllegalArgumentException("Email already registered.");
         }
 
-        User user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))  //  This hashes the password
-                .role("USER")
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .phone(request.getPhone())
-                .dateOfBirth(request.getDateOfBirth())
-                .walletBalance(BigDecimal.ZERO)
-                .status("ACTIVE")
-                .build();
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new IllegalArgumentException("Username already taken.");
+        }
+
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setUsername(request.getUsername());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPhone(request.getPhone());
+        user.setDateOfBirth(request.getDateOfBirth());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER.toString());
+        user.setStatus(Status.ACTIVE.toString());
 
         userRepository.save(user);
-
-        String token = jwtUtil.generateToken(user.getEmail());
-        return new AuthResponse(token);
     }
+
 
     public AuthResponse login(LoginRequest request) {
         log.info("CHECKING WHILE LOGIN!!");
@@ -61,7 +60,6 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(user.getEmail());
         log.info("TOKEN FOR: " + user.getEmail());
-
         return new AuthResponse(token);
     }
 

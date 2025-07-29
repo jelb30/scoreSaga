@@ -1,6 +1,11 @@
 # Compiled class file
 *.class
 
+# React frontend
+/frontend/node_modules
+/frontend/build
+
+
 # Maven target directory
 /target/
 
