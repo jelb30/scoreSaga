@@ -1,0 +1,17 @@
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/auth/AuthController.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/auth/AuthService.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/config/CorsConfig.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/config/JwtAuthFilter.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/config/SecurityConfig.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/config/UserDetailsServiceImpl.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/controller/UserController.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/dto/AuthResponse.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/dto/LoginRequest.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/dto/RegisterRequest.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/enums/Role.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/enums/Status.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/exception/GlobalExceptionHandler.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/model/User.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/repository/UserRepository.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/scoreSagaApplication.java
+/Users/JELB/Documents/scoreSaga/src/main/java/com/scoresaga/util/JwtUtil.java
