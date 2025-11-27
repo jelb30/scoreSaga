@@ -7,7 +7,7 @@
 
 
 # Maven target directory
-/target/
+/Backend/target/
 
 # IntelliJ IDEA
 .idea/
