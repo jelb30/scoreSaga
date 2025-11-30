@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import { FiChevronDown, FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut, FiUser } from "react-icons/fi";
 
 const sportsTabs = [
   { label: "Cricket", value: "CRICKET" },
@@ -35,7 +35,6 @@ export default function Home() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -102,45 +101,29 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-4 text-sm text-slate-700">
+              <Link to="/contests" className="hover:text-slate-900 transition">Contests</Link>
+              <Link to="/my-contests" className="hover:text-slate-900 transition">My Contests</Link>
+              <Link to="/leagues" className="hover:text-slate-900 transition">Leagues</Link>
+            </nav>
             <button
               type="button"
-              onClick={() => setShowProfile((s) => !s)}
-              className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              onClick={() => navigate("/profile")}
+              className="flex items-center justify-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-800 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              title="Profile"
             >
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-[11px] font-semibold text-white">
                 {initials}
               </span>
-              <span className="hidden sm:inline">
-                {profile?.email || "Guest"}
-              </span>
-              <FiChevronDown className="text-slate-500" />
             </button>
-
-            {showProfile && (
-              <div className="absolute right-0 mt-2 w-64 space-y-3 rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-xl">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">
-                    {initials}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold">
-                      {profile?.email || "Guest"}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {profile?.role || "Unauthenticated"}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800"
-                >
-                  <FiLogOut /> Logout
-                </button>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={onLogout}
+              className="hidden md:inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+            >
+              <FiLogOut /> Logout
+            </button>
           </div>
         </div>
       </header>
