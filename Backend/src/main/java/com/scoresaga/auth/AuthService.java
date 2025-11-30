@@ -7,10 +7,11 @@ import com.scoresaga.model.User;
 import com.scoresaga.repository.UserRepository;
 import com.scoresaga.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-import java.math.BigDecimal;
 
 @Slf4j
 @Service
@@ -19,6 +20,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     public void registerUser(RegisterRequest request) {
@@ -46,20 +48,10 @@ public class AuthService {
 
 
     public AuthResponse login(LoginRequest request) {
-        log.info("CHECKING WHILE LOGIN!!");
-        log.info("EMAIL FROM REQUEST: " + request.getEmail());
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        log.info("FOUND USER IN DB: " + user.getEmail());
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        String token = jwtUtil.generateToken(user.getEmail());
-        log.info("TOKEN FOR: " + user.getEmail());
+        String token = jwtUtil.generateToken(request.getEmail());
         return new AuthResponse(token);
     }
 

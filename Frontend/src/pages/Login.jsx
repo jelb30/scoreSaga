@@ -41,7 +41,7 @@ export default function Login() {
       if (token) {
         localStorage.setItem("token", token);
         setError("");
-        navigate("/dashboard");
+        navigate("/home");
       } else {
         setError("Invalid login.");
       }
@@ -51,95 +51,124 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Image Section */}
-      <div className="hidden md:block w-2/3">
-        <img
-          src={LoginImg}
-          alt="Login Visual"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Right Form Section */}
-      <div className="w-full md:w-1/3 bg-white flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-6">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800">Login</h2>
-            <p className="text-gray-600 mt-1">Welcome back! Please login to your account.</p>
-          </div>
-
-          {/* Email Input */}
-          <div>
-            <label htmlFor="email" className="text-sm text-gray-600">Email</label>
-            <input
-              type="email"
-              id="email"
-              className={`w-full mt-1 px-4 py-2 rounded-md border ${
-                fieldErrors.email ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 ${
-                fieldErrors.email ? "focus:ring-red-400" : "focus:ring-blue-500"
-              }`}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {fieldErrors.email && (
-              <p className="text-sm text-red-500 mt-1">{fieldErrors.email}</p>
-            )}
-          </div>
-
-          {/* Password Input */}
-          <div>
-            <label htmlFor="password" className="text-sm text-gray-600">Password</label>
-            <div className="relative mt-1">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                className={`w-full px-4 py-2 rounded-md border pr-10 ${
-                  fieldErrors.password ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 ${
-                  fieldErrors.password ? "focus:ring-red-400" : "focus:ring-blue-500"
-                }`}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span
-                className="absolute right-3 top-2.5 cursor-pointer text-gray-500"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
-              </span>
-            </div>
-            {fieldErrors.password && (
-              <p className="text-sm text-red-500 mt-1">{fieldErrors.password}</p>
-            )}
-          </div>
-
-          {/* Extra Options */}
-          <div className="flex justify-between items-center text-sm text-gray-500">
-            <label className="flex items-center space-x-2">
-              <input type="checkbox" className="form-checkbox text-blue-500" />
-              <span>Remember Me</span>
-            </label>
-            <a href="#" className="hover:underline">Forgot Password?</a>
-          </div>
-
-          {/* Login Button */}
-          <button
-            onClick={handleLogin}
-            className="w-full bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white py-2 rounded-md font-semibold transition"
-          >
-            Login
-          </button>
-
-          {/* General API Error */}
-          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
-
-          {/* Signup Redirect */}
-          <p className="text-center text-sm text-gray-600">
-            Don’t have an account?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">Sign up</Link>
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-8 bg-slate-900"
+      style={{
+        backgroundImage:
+          "linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=2400&q=80')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center">
+        <div className="text-white space-y-4">
+          <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">ScoreSaga</p>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            Log in and drop into your fantasy control room.
+          </h1>
+          <p className="text-emerald-50/85 text-lg">
+            Cristiano’s iconic drive on repeat. Channel that energy to lock squads, get instant alerts,
+            and own every match day.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/register"
+              className="px-5 py-2.5 rounded-full bg-[#b7ff3b] text-black font-semibold shadow-lg shadow-black/40 hover:-translate-y-0.5 hover:brightness-95 transition"
+              style={{ color: "#000" }}
+            >
+              Create free profile
+            </Link>
+            <Link
+              to="/dashboard"
+              className="px-5 py-2.5 rounded-full border border-white/60 text-white hover:bg-white/10 transition"
+            >
+              Back to dashboard
+            </Link>
+          </div>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-2xl shadow-2xl shadow-black/40 p-8">
+          <div className="space-y-6">
+            <div>
+              <p className="text-sm uppercase tracking-[0.25em] text-emerald-100/80">Welcome back</p>
+              <h2 className="text-3xl font-semibold text-white mt-1">Login to ScoreSaga</h2>
+            </div>
+
+            {/* Email Input */}
+            <div>
+              <label htmlFor="email" className="text-sm text-emerald-50">Email</label>
+              <input
+                type="email"
+                id="email"
+                className={`w-full mt-1 px-4 py-3 rounded-lg bg-white/10 text-white placeholder:text-emerald-100/60 border ${
+                  fieldErrors.email ? "border-red-400/80" : "border-white/20"
+                } focus:outline-none focus:ring-2 ${
+                  fieldErrors.email ? "focus:ring-red-400" : "focus:ring-lime-300"
+                }`}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+              />
+              {fieldErrors.email && (
+                <p className="text-sm text-red-300 mt-1">{fieldErrors.email}</p>
+              )}
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="text-sm text-emerald-50">Password</label>
+              <div className="relative mt-1">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  className={`w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder:text-emerald-100/60 border pr-12 ${
+                    fieldErrors.password ? "border-red-400/80" : "border-white/20"
+                  } focus:outline-none focus:ring-2 ${
+                    fieldErrors.password ? "focus:ring-red-400" : "focus:ring-lime-300"
+                  }`}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                />
+                <span
+                  className="absolute right-3 top-3.5 cursor-pointer text-emerald-100"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </span>
+              </div>
+              {fieldErrors.password && (
+                <p className="text-sm text-red-300 mt-1">{fieldErrors.password}</p>
+              )}
+            </div>
+
+            {/* Extra Options */}
+            <div className="flex justify-between items-center text-sm text-emerald-50/80">
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" className="form-checkbox text-lime-300" />
+                <span>Remember me</span>
+              </label>
+              <a href="#" className="hover:underline">Forgot Password?</a>
+            </div>
+
+            {/* Login Button */}
+            <button
+              onClick={handleLogin}
+              className="w-full bg-[#b7ff3b] hover:brightness-95 text-black py-3 rounded-lg font-semibold transition shadow-lg shadow-black/30"
+              style={{ color: "#000" }}
+            >
+              Login
+            </button>
+
+            {/* General API Error */}
+            {error && <p className="text-red-300 text-center text-sm">{error}</p>}
+
+            {/* Signup Redirect */}
+            <p className="text-center text-sm text-emerald-50/85">
+              Don’t have an account?{" "}
+              <Link to="/register" className="text-lime-200 font-semibold hover:underline">Sign up</Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
