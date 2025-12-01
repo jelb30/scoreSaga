@@ -1,4 +1,4 @@
-package com.scoresaga.enums;
+package com.scoresaga.model.enums;
 
 public enum Role {
     USER,

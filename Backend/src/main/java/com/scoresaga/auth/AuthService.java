@@ -1,8 +1,8 @@
 package com.scoresaga.auth;
 
 import com.scoresaga.dto.*;
-import com.scoresaga.enums.Role;
-import com.scoresaga.enums.Status;
+import com.scoresaga.model.enums.Role;
+import com.scoresaga.model.enums.Status;
 import com.scoresaga.model.User;
 import com.scoresaga.repository.UserRepository;
 import com.scoresaga.util.JwtUtil;

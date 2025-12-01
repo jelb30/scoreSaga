@@ -8,16 +8,40 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 function App() {
-  const token = localStorage.getItem("token");
+  const hasAuth = () => {
+    const token = localStorage.getItem("token");
+    const hasCookie = document.cookie
+      ?.split(";")
+      .some((c) => c.trim().startsWith("access_token="));
+    return Boolean(token || hasCookie);
+  };
+
+  const RequireAuth = ({ children }) =>
+    hasAuth() ? children : <Navigate to="/dashboard" replace />;
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={token ? <Navigate to="/home" replace /> : <Dashboard />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={hasAuth() ? <Navigate to="/home" replace /> : <Dashboard />} />
+        <Route
+          path="/home"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <Profile />
+            </RequireAuth>
+          }
+        />
+        <Route path="/login" element={hasAuth() ? <Navigate to="/home" replace /> : <Login />} />
+        <Route path="/register" element={hasAuth() ? <Navigate to="/home" replace /> : <Register />} />
       </Routes>
     </BrowserRouter>
   );

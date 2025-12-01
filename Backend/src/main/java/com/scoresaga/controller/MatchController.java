@@ -2,8 +2,8 @@ package com.scoresaga.controller;
 
 import com.scoresaga.dto.MatchDto;
 import com.scoresaga.model.Match;
-import com.scoresaga.model.MatchStatus;
-import com.scoresaga.model.Sport;
+import com.scoresaga.model.enums.MatchStatus;
+import com.scoresaga.model.enums.Sport;
 import com.scoresaga.repository.MatchRepository;
 import org.springframework.web.bind.annotation.*;
 

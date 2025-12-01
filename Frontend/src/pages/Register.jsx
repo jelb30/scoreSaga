@@ -20,7 +20,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Register | ScoreSaga";
+    document.title = "ScoreSaga | Register";
   }, []);
 
   const handleChange = (field, value) => {

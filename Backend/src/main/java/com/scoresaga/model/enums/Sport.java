@@ -1,4 +1,4 @@
-package com.scoresaga.model;
+package com.scoresaga.model.enums;
 
 public enum Sport {
     CRICKET,

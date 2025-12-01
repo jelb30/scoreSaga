@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { FiLogOut, FiUser } from "react-icons/fi";
+import logo from "../assets/ScoreSaga Logo.png";
 
 const sportsTabs = [
   { label: "Cricket", value: "CRICKET" },
@@ -37,13 +38,9 @@ export default function Home() {
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+    document.title = "ScoreSaga | Home";
+  }, []);
 
   const initials = useMemo(() => {
     if (profile?.email) return profile.email.charAt(0).toUpperCase();
@@ -90,15 +87,8 @@ export default function Home() {
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-xs font-semibold text-white">
-              SS
-            </div>
-            <div>
-              <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-slate-500">
-                ScoreSaga
-              </p>
-              <p className="text-sm font-semibold text-slate-900">Fixtures</p>
-            </div>
+            <img src={logo} alt="ScoreSaga logo" className="h-10 w-auto" />
+            <p className="text-sm font-semibold text-slate-900">ScoreSaga</p>
           </div>
 
           <div className="flex items-center gap-4">

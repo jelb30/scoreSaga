@@ -1,8 +1,8 @@
 package com.scoresaga.config;
 
 import com.scoresaga.model.Match;
-import com.scoresaga.model.MatchStatus;
-import com.scoresaga.model.Sport;
+import com.scoresaga.model.enums.MatchStatus;
+import com.scoresaga.model.enums.Sport;
 import com.scoresaga.repository.MatchRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
