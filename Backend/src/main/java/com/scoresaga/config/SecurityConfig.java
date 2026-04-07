@@ -27,7 +27,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**",
-                            "api/dev/**"
+                            "/api/dev/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

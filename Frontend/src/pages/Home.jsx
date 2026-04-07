@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import logo from "../assets/ScoreSaga Logo.png";
 
 const sportsTabs = [
@@ -76,9 +76,15 @@ export default function Home() {
     loadMatches();
   }, [activeSport]);
 
-  const onLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/dashboard");
+  const onLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // Always clear local auth state even if the logout request fails.
+    } finally {
+      localStorage.removeItem("token");
+      navigate("/dashboard", { replace: true });
+    }
   };
 
   return (

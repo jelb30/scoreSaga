@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import LoginImg from "../assets/Register.jpg";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -51,7 +50,7 @@ export default function Register() {
     if (!validate()) return;
 
     try {
-        const response = await api.post("/auth/register", {
+      const response = await api.post("/auth/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -59,19 +58,39 @@ export default function Register() {
         lastName: formData.lastName,
         phone: formData.phone,
         dateOfBirth: formData.dateOfBirth,
-        });
+      });
 
-        if (response.status === 200 && response.data === "User registered successfully.") {
-        setError("");
-        navigate("/home");
-        } else {
-        setError("Registration failed. Please try again.");
+      if (response.status === 200 && response.data === "User registered successfully.") {
+        try {
+          const loginResponse = await api.post("/auth/login", {
+            email: formData.email,
+            password: formData.password,
+          });
+          const token = loginResponse.data?.token;
+
+          if (token) {
+            localStorage.setItem("token", token);
+            setError("");
+            navigate("/home", { replace: true });
+            return;
+          }
+
+          localStorage.removeItem("token");
+          setError("");
+          navigate("/login", { replace: true });
+        } catch {
+          localStorage.removeItem("token");
+          setError("");
+          navigate("/login", { replace: true });
         }
-    } catch (err) {
+      } else {
         setError("Registration failed. Please try again.");
-        console.error(err);
+      }
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+      console.error(err);
     }
-    };
+  };
 
 
   return (
