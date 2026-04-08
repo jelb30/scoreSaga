@@ -21,6 +21,7 @@ public class DevFootballController {
     @GetMapping("/today")
     public List<ExternalFixture> getTodayPremierLeagueFixtures() {
         // Premier League code = "PL"
-        return footballApiClient.getUpcomingFixtures(LocalDate.now(), List.of("PL"));
+        LocalDate today = LocalDate.now();
+        return footballApiClient.getUpcomingFixtures(today, today, List.of("PL"));
     }
 }

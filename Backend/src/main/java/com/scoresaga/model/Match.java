@@ -28,6 +28,11 @@ public class Match {
     @Enumerated(EnumType.STRING)
     private MatchStatus status;
 
+    private Integer homeScore;
+
+    private Integer awayScore;
+
+    @Column(unique = true)
     private String externalId;
 
     public Match() {
@@ -103,5 +108,21 @@ public class Match {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public Integer getHomeScore() {
+        return homeScore;
+    }
+
+    public void setHomeScore(Integer homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public Integer getAwayScore() {
+        return awayScore;
+    }
+
+    public void setAwayScore(Integer awayScore) {
+        this.awayScore = awayScore;
     }
 }

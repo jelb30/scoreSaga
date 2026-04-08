@@ -8,7 +8,7 @@ import java.util.List;
 public interface CricketApiClient {
 
     /**
-     * Fetch upcoming cricket fixtures for the given date and optional series/league filters.
+     * Fetch upcoming cricket fixtures for the given date range and optional series/league filters.
      */
-    List<ExternalFixture> getUpcomingFixtures(LocalDate date, List<String> seriesIds);
+    List<ExternalFixture> getUpcomingFixtures(LocalDate startDate, LocalDate endDate, List<String> seriesIds);
 }

@@ -29,5 +29,7 @@ public class Team {
 
     private String name;
     private String shortName;
+
+    @Column(unique = true)
     private String externalId;
 }

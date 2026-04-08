@@ -28,5 +28,7 @@ public class League {
     private String code;
     private String country;
     private String season;
+
+    @Column(unique = true)
     private String externalId;
 }

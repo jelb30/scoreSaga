@@ -33,9 +33,13 @@ public class MatchController {
     private MatchDto toDto(Match m) {
         return new MatchDto(
                 m.getId(),
-                m.getSport().name(),
+                m.getLeague() != null && m.getLeague().getName() != null
+                        ? m.getLeague().getName()
+                        : "Unknown League",
                 m.getHomeTeam(),
                 m.getAwayTeam(),
+                m.getHomeScore(),
+                m.getAwayScore(),
                 m.getStartTime(),
                 m.getStatus().name()
         );

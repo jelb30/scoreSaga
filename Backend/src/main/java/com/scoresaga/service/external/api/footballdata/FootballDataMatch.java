@@ -10,4 +10,5 @@ public class FootballDataMatch {
     private FootballDataTeam awayTeam;
     private String utcDate;
     private String status;
+    private FootballDataScore score;
 }
