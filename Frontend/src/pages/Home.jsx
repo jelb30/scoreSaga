@@ -1,23 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
+import logo from "../assets/ScoreSaga Logo.png";
 
 const sportsTabs = [
   { label: "Cricket", value: "CRICKET" },
   { label: "Football", value: "FOOTBALL" },
 ];
-
-const leagueByTeams = (home, away) => {
-  const pair = `${home} vs ${away}`.toLowerCase();
-  if (pair.includes("barcelona") || pair.includes("madrid") || pair.includes("sevilla")) return "La Liga";
-  if (pair.includes("arsenal") || pair.includes("liverpool") || pair.includes("chelsea") || pair.includes("city"))
-    return "Premier League";
-  if (pair.includes("csk") || pair.includes("mi") || pair.includes("rcb")) return "IPL";
-  if (pair.includes("india") || pair.includes("pakistan") || pair.includes("england") || pair.includes("australia"))
-    return "International";
-  return "Club";
-};
 
 const formatTime = (iso) => {
   const dt = new Date(iso);
@@ -30,6 +20,9 @@ const formatTime = (iso) => {
   });
 };
 
+const resolveLeagueName = (match) =>
+  match.league?.name || match.leagueName || match.leagueCode || "Unknown League";
+
 export default function Home() {
   const [activeSport, setActiveSport] = useState("CRICKET");
   const [matches, setMatches] = useState([]);
@@ -37,18 +30,27 @@ export default function Home() {
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+    document.title = "ScoreSaga | Home";
+  }, []);
 
   const initials = useMemo(() => {
     if (profile?.email) return profile.email.charAt(0).toUpperCase();
     return "U";
   }, [profile]);
+
+  const groupedMatches = useMemo(
+    () =>
+      matches.reduce((groups, match) => {
+        const leagueName = resolveLeagueName(match);
+        if (!groups[leagueName]) {
+          groups[leagueName] = [];
+        }
+        groups[leagueName].push(match);
+        return groups;
+      }, {}),
+    [matches]
+  );
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -79,9 +81,15 @@ export default function Home() {
     loadMatches();
   }, [activeSport]);
 
-  const onLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/dashboard");
+  const onLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // Always clear local auth state even if the logout request fails.
+    } finally {
+      localStorage.removeItem("token");
+      navigate("/dashboard", { replace: true });
+    }
   };
 
   return (
@@ -90,15 +98,8 @@ export default function Home() {
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-xs font-semibold text-white">
-              SS
-            </div>
-            <div>
-              <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-slate-500">
-                ScoreSaga
-              </p>
-              <p className="text-sm font-semibold text-slate-900">Fixtures</p>
-            </div>
+            <img src={logo} alt="ScoreSaga logo" className="h-10 w-auto" />
+            <p className="text-sm font-semibold text-slate-900">ScoreSaga</p>
           </div>
 
           <div className="flex items-center gap-4">
@@ -206,30 +207,51 @@ export default function Home() {
 
           {/* Fixtures list */}
           {!loading && matches.length > 0 && (
-            <ul className="space-y-3">
-              {matches.map((m) => (
-                <li
-                  key={m.id}
-                  className="group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition-colors hover:border-emerald-300 hover:bg-emerald-50/60"
+            <div className="space-y-5">
+              {Object.entries(groupedMatches).map(([leagueName, leagueMatches]) => (
+                <section
+                  key={leagueName}
+                  className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70"
                 >
-                  <div className="flex flex-1 flex-col gap-1">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                      {leagueByTeams(m.homeTeam, m.awayTeam)}
-                    </p>
-                    <p className="text-sm font-semibold text-slate-900 sm:text-base">
-                      {m.homeTeam}{" "}
-                      <span className="text-slate-500">vs</span> {m.awayTeam}
-                    </p>
-                    <p className="text-xs text-slate-600">
-                      {formatTime(m.startTime)}
-                    </p>
+                  <div className="flex items-center justify-between border-b border-slate-200 bg-slate-900 px-4 py-3 text-white">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-200/85">
+                        League
+                      </p>
+                      <h3 className="mt-1 text-sm font-semibold sm:text-base">{leagueName}</h3>
+                    </div>
+                    <span className="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-100">
+                      {leagueMatches.length} match{leagueMatches.length > 1 ? "es" : ""}
+                    </span>
                   </div>
-                  <span className="whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
-                    {m.status}
-                  </span>
-                </li>
+
+                  <ul className="space-y-3 p-3 sm:p-4">
+                    {leagueMatches.map((m) => (
+                      <li
+                        key={m.id}
+                        className="group flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 transition-colors hover:border-emerald-300 hover:bg-emerald-50/60"
+                      >
+                        <div className="flex flex-1 flex-col gap-1">
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                            {leagueName}
+                          </p>
+                          <p className="text-sm font-semibold text-slate-900 sm:text-base">
+                            {m.homeTeam}{" "}
+                            <span className="text-slate-500">vs</span> {m.awayTeam}
+                          </p>
+                          <p className="text-xs text-slate-600">
+                            {formatTime(m.startTime)}
+                          </p>
+                        </div>
+                        <span className="whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
+                          {m.status}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               ))}
-            </ul>
+            </div>
           )}
 
           {/* Empty state */}

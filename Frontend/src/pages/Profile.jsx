@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import logo from "../assets/ScoreSaga Logo.png";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -8,11 +9,8 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
-  }, [navigate]);
+    document.title = "ScoreSaga | Profile";
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,13 +34,8 @@ export default function Profile() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white">
-              SS
-            </div>
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-slate-500">ScoreSaga</p>
-              <h1 className="text-lg font-semibold text-slate-900">Profile</h1>
-            </div>
+            <img src={logo} alt="ScoreSaga logo" className="h-10 w-auto" />
+            <h1 className="text-lg font-semibold text-slate-900">Profile</h1>
           </div>
           <button
             onClick={() => navigate("/home")}

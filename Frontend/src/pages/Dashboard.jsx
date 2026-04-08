@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import logo from "../assets/ScoreSaga Logo.png";
 
 const features = [
   { title: "Build your fantasy XI", desc: "Draft across leagues, stack form players, and save multiple squads for match day.", stat: "Syncs with live lineups" },
@@ -14,6 +16,10 @@ const fixtures = [
 ];
 
 export default function Dashboard() {
+  useEffect(() => {
+    document.title = "ScoreSaga | Dashboard";
+  }, []);
+
   return (
     <div className="min-h-screen text-white">
       <div className="relative overflow-hidden">
@@ -24,13 +30,8 @@ export default function Dashboard() {
         <div className="relative mx-auto max-w-6xl px-6 py-8 lg:py-12">
           <header className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-11 w-11 rounded-full bg-white/10 ring-2 ring-emerald-400/60 flex items-center justify-center font-semibold">
-                SS
-              </div>
-              <div>
-                <p className="text-sm uppercase tracking-[0.25em] text-emerald-100/80">ScoreSaga</p>
-                <h1 className="text-xl font-semibold text-white">Your fantasy war room</h1>
-              </div>
+              <img src={logo} alt="ScoreSaga logo" className="h-12 w-auto" />
+              <h1 className="text-xl font-semibold text-white">Your fantasy war room</h1>
             </div>
             <div className="flex gap-3">
               <Link

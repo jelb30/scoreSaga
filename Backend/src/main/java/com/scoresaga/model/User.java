@@ -40,6 +40,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     private String role = "USER";
 
     private String firstName;
@@ -47,6 +48,7 @@ public class User {
     private String phone;
     private LocalDate dateOfBirth;
 
+    @Builder.Default
     private BigDecimal walletBalance = BigDecimal.ZERO;
 
     @CreationTimestamp
@@ -57,5 +59,6 @@ public class User {
 
     private String profileImage;
 
+    @Builder.Default
     private String status = "ACTIVE";
 }

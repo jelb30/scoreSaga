@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 public record MatchDto(
         Long id,
-        String sport,
+        String leagueName,
         String homeTeam,
         String awayTeam,
+        Integer homeScore,
+        Integer awayScore,
         LocalDateTime startTime,
         String status
 ) {}

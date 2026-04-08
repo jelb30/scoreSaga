@@ -1,5 +1,7 @@
 package com.scoresaga.model;
 
+import com.scoresaga.model.enums.MatchStatus;
+import com.scoresaga.model.enums.Sport;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -14,6 +16,9 @@ public class Match {
     @Enumerated(EnumType.STRING)
     private Sport sport;
 
+    @ManyToOne
+    private League league;
+
     private String homeTeam;
 
     private String awayTeam;
@@ -22,6 +27,13 @@ public class Match {
 
     @Enumerated(EnumType.STRING)
     private MatchStatus status;
+
+    private Integer homeScore;
+
+    private Integer awayScore;
+
+    @Column(unique = true)
+    private String externalId;
 
     public Match() {
     }
@@ -48,6 +60,14 @@ public class Match {
 
     public void setSport(Sport sport) {
         this.sport = sport;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
     }
 
     public String getHomeTeam() {
@@ -80,5 +100,29 @@ public class Match {
 
     public void setStatus(MatchStatus status) {
         this.status = status;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public Integer getHomeScore() {
+        return homeScore;
+    }
+
+    public void setHomeScore(Integer homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public Integer getAwayScore() {
+        return awayScore;
+    }
+
+    public void setAwayScore(Integer awayScore) {
+        this.awayScore = awayScore;
     }
 }

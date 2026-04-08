@@ -13,7 +13,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login | ScoreSaga";
+    document.title = "ScoreSaga | Login";
   }, []);
 
 
